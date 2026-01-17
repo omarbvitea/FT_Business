@@ -1,0 +1,28 @@
+services:
+    postgres:
+        image: postgres:15-alpine
+        container_name: family_tree_db
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: family_tree
+        ports:
+            - '5432:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+    app:
+        build: .
+        container_name: family_tree_api
+        environment:
+            DATABASE_URL: postgres://postgres:postgres@postgres:5432/family_tree?schema=public
+            NODE_ENV: production
+            PORT: 3000
+        ports:
+            - '3000:3000'
+        depends_on:
+            - postgres
+        command: sh -c "npx prisma migrate deploy && node dist/server.js"
+
+volumes:
+    postgres_data:

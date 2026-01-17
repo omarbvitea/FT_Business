@@ -1,0 +1,3 @@
+export const SESSION_EXPIRATION_DAYS = 1
+export const SESSION_EXPIRATION_SECONDS = 60 * 60 * 24 * SESSION_EXPIRATION_DAYS
+export const COOKIE_NAME = 'session_id'
